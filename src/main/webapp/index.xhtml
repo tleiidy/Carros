@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Automoviles</title>
+    </h:head>
+    
+    <style type="text/css">
+        .ui-datatable .ui-datatable-header {
+            text-align: right !important;
+        }
+
+        .ui-button-text-only .ui-button-text {
+            padding: 0.3em 0.4em;
+        }
+
+        .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+            visibility: hidden;
+        }
+
+        .ui-filter-column .ui-column-customfilter .custom-filter {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .year-spinner input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+    
+    <h:body>
+        <h1>AUTOMOVILES</h1>
+        <h:form>
+            <p:panel>
+                <h:panelGrid>
+                    <p:outputLabel value="Nombre: " 
+                                   for="nombre"
+                                   styleClass="requiredLbl"/>
+                    <p:inputText id="nombre" label="Nombre"
+                                 value="#{control.carro.nombre}"
+                                 required="true"/>
+                    <p:outputLabel value="Marca: " 
+                                   for="marca"
+                                   styleClass="requiredLbl"/>
+                    <p:selectOneMenu id="marca" value="#{control.carro.marca}" style="width:125px">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItem itemLabel="BMW" itemValue="BMW" />
+                        <f:selectItem itemLabel="Mazda" itemValue="Mazda" />
+                        <f:selectItem itemLabel="Renault" itemValue="Renault" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Modelo: " 
+                                   for="modelo"
+                                   styleClass="requiredLbl"/>
+                    <p:inputText id="modelo" label="Modelo"
+                                 value="#{control.carro.modelo}"
+                                 required="true"/>
+                    <p:commandButton value="Insertar" id="nonAjax" 
+                                     action="#{control.agregarCarro(control.carro)}" 
+                                     style="margin-right:20px;" 
+                                     ajax="false"
+                                     update=":datosCarro:dtCarro"/>
+                </h:panelGrid>
+                <p:separator/>
+            </p:panel>
+        </h:form>
+        
+        <h:form id="form">
+            <p:panel>
+                <p:dataTable id="dtCarro" value="#{vista.listaCarro}" var="carro"
+                             paginator="true"
+                             widgetVar="carsTable">
+                    <p:column headerText="Nombre">
+                        <p:outputLabel value="#{carro.nombre}"/>
+                    </p:column>
+                    <p:column filterBy="#{carro.marca}" headerText="Marca" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('carsTable').filter()" styleClass="custom-filter">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="BMW" itemValue="BMW" />
+                                <f:selectItem itemLabel="Mazda" itemValue="Mazda" />
+                                <f:selectItem itemLabel="Renault" itemValue="Renault" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{carro.marca}" />
+                    </p:column>
+                    <p:column headerText="Modelo"
+                              filterBy="#{carro.modelo}"
+                              filterMatchMode="contains">
+                        <p:outputLabel value="#{carro.modelo}"/>
+                    </p:column>
+                </p:dataTable>
+                
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
