@@ -7,7 +7,7 @@ package com.udec.modelo;
 
 /**
  *
- * @author angie
+ * @author Leidy Torres
  */
 public class Carro {
     
